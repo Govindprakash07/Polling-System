@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Online Polling System</title>
+    <link rel="stylesheet" href="/public/style.css">
+</head>
+<body>
+    <h1>🗳️ Online Polling System</h1>
+    <a href="/create">➕ Create a Poll</a>
+    <ul>
+        <% polls.forEach(poll => { %>
+            <li><a href="/poll/<%= poll._id %>"><%= poll.question %></a></li>
+        <% }); %>
+    </ul>
+</body>
+</html>
