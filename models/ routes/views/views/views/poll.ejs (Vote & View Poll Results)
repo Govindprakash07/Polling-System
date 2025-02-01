@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vote</title>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <h1><%= poll.question %></h1>
+    <form action="/vote/<%= poll._id %>" method="POST">
+        <% poll.options.forEach((option, index) => { %>
+            <label>
+                <input type="radio" name="optionIndex" value="<%= index %>" required>
+                <%= option.text %> (<%= option.votes %> votes)
+            </label><br>
+        <% }); %>
+        <button type="submit">Vote</button>
+    </form>
+    <a href="/">⬅️ Back to Polls</a>
+
+    <script>
+        const socket = io();
+        socket.on("updatePoll", (pollId) => {
+            if (pollId === "<%= poll._id %>") {
+                location.reload();
+            }
+        });
+    </script>
+</body>
+</html>
