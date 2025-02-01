@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Poll</title>
+</head>
+<body>
+    <h1>Create a New Poll</h1>
+    <form action="/create" method="POST">
+        <input type="text" name="question" placeholder="Poll Question" required>
+        <input type="text" name="options" placeholder="Options (comma-separated)" required>
+        <button type="submit">Create Poll</button>
+    </form>
+    <a href="/">⬅️ Back to Polls</a>
+</body>
+</html>
