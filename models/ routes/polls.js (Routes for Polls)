@@ -1,0 +1,46 @@
+const express = require("express");
+const Poll = require("../models/Poll");
+
+const router = express.Router();
+
+// Home Page - List Polls
+router.get("/", async (req, res) => {
+    const polls = await Poll.find();
+    res.render("index", { polls });
+});
+
+// Create Poll Page
+router.get("/create", (req, res) => {
+    res.render("createPoll");
+});
+
+// Handle Creating a Poll
+router.post("/create", async (req, res) => {
+    const { question, options } = req.body;
+    const poll = new Poll({
+        question,
+        options: options.split(",").map(option => ({ text: option.trim(), votes: 0 }))
+    });
+
+    await poll.save();
+    res.redirect("/");
+});
+
+// View Poll & Vote
+router.get("/poll/:id", async (req, res) => {
+    const poll = await Poll.findById(req.params.id);
+    res.render("poll", { poll });
+});
+
+// Handle Voting
+router.post("/vote/:id", async (req, res) => {
+    const { optionIndex } = req.body;
+    const poll = await Poll.findById(req.params.id);
+    
+    poll.options[optionIndex].votes += 1;
+    await poll.save();
+
+    res.redirect(`/poll/${poll._id}`);
+});
+
+module.exports = router;
